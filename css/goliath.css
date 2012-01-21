@@ -1,0 +1,19 @@
+h1{text-align:center;}
+h1 .small{font-size:20%;}
+.huge{font-size:150%;}
+#me-contact{padding-left:1em;}
+#twitter,#gplus{vertical-align:middle;}
+a:link,a:visited,a:hover{text-decoration:none;}
+#io{width:75%;list-style-type:none;background-color:#E0E4CC;padding-top:1em;padding-bottom:1em;border-radius:15px;margin:0 auto;}#io li{display:-webkit-box;-webkit-box-orient:horizontal;}#io li div:first-child{-webkit-box-flex:1;}
+#io li div:last-child{margin-right:1em;}
+.hcenter{display:-webkit-box;display:-moz-box;display:-o-box;display:-ms-box;display:box;-webkit-box-orient:horizontal;-moz-box-orient:horizontal;-o-box-orient:horizontal;box-orient:horizontal;-webkit-box-pack:center;-moz-box-pack:center;-o-box-pack:center;box-pack:center;-webkit-box-align:center;-moz-box-align:center;-o-box-align:center;box-align:center;}.hcenter *:last-child{-webkit-box-flex:1;}
+.vcenter{display:-webkit-box;display:-moz-box;display:-o-box;display:-ms-box;display:box;-webkit-box-orient:vertical;-moz-box-orient:vertical;-o-box-orient:vertical;box-orient:vertical;-webkit-box-pack:center;-moz-box-pack:center;-o-box-pack:center;box-pack:center;}.vcenter >*{-webkit-box-flex:1;}
+.center{margin:auto 0;}
+.small{font-size:60%;}
+#test{display:-webkit-box;-webkit-box-orient:horizontal;}
+ul.bullet{list-style:none;padding:0;margin:0;}
+ul.bullet li{padding-left:1em;text-indent:-0.7em;}
+ul.bullet li:before{content:"➪ ";}
+#bg-sumo{-webkit-background-size:contain;-moz-background-size:contain;-o-background-size:contain;background-size:contain;background:url('../images/artwild1x.jpg') bottom no-repeat,#ffffff;}
+#bg-black{background:#000;}
+.title h1{color:#A7DBD8;}

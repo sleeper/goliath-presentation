@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title> Goliath ... a tiny GIANT</title>
+    <link href="css/slides.css" rel="stylesheet" type="text/css">
+    <link href="css/goliath.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="js/highlight/styles/solarized_light.css">
+  </head>
+  <body>
+    <div id="content" class="hidden">
+      <div id="bg-black" class="background"></div>
+      <div id="bg-sumo" class="background"></div>
+
+
+      <div class="slide title centercontents transparent" data-backgroundid="bg-sumo">
+        <h1>Goliath ... a <span class="small">tiny</span> <span class="huge">GIANT</span></h1>
+          <section class="author">
+          F. Ros @ Riviera.rb
+          </section>
+     </div>
+      <div class="slide slide-in" data-backgroundid="bg-black">
+        <section class="hcenter">
+          <div class="slide-in-left">
+            <img id="me" src="images/fred2.png" alt="Frederick Ros">
+          </div>
+          <div id="me-contact" class="slide-in-right">
+            <h1>Frederick Ros</h1>
+            <p>Senior Manager, aMaDEUS</p>
+            <p>Dev addict</p>
+             <p><img id="twitter" src="images/twitter.png" alt="twitter"/><a href="http://twitter.com/#!/sl33p3r">@sl33p3r</a></p>
+            <p><img id="gplus" src="images/gplus.png"alt="google+"/><a href="https://plus.google.com/112360515366365281857">+Frederick Ros</a></p>
+          </div>
+        </section>
+      </div>
+
+      <div class="slide vcenter">
+        <h1>The IO issue</h1>
+        <section>
+        <ul id="io">
+          <li><div>L1-cache</div> <div>3 cycles</div></li>
+          <li><div>L2-cache</div> <div>14 cycles</div></li>
+          <li><div>RAM</div> <div>250 cycles</div></li>
+          <li><div>Disk</div> <div class="highlight">41 000 000 cycles</div></li>
+          <li><div>Network</div> <div class="highlight">240 000 000 cycles</div></li>
+        </ul>
+        </section>
+      </div>
+
+      <div class="slide centercontents">
+        <h1>Traditional web servers</h1>
+        <img alt="IO jam" src="images/io.jpg"/>
+      </div>
+      <div class="slide">
+        <h1>Enters the Reactor</h1>
+        <section>
+        <p>Single threaded while loop.</p>
+        <p>Your code reacts to incoming events</p>
+        <p><div class="highlight">Watch out</div>: do not block the reactor !!</p>
+        <pre><code>
+while reactor_running?
+  expired_timers.each {|timer| timer.process }
+  new_network_io.each {|io| io.process }
+end
+        </code></pre>
+        </section>
+      </div>
+
+      <div class="slide vcenter centertext">
+        <h1>... and EventMachine</h1>
+        <section>
+          <div class="center">
+            <p>Reactor pattern (i.e. event driven)</p>
+            <p>+</p>
+            <p>Asynchronous code </p>
+          </div>
+        </section>
+      </div>
+      <div class="slide">
+        <h1>Spaghetti code !</h1>
+        <section>
+        Writing evented code is hard ... and ugly !
+        <pre><code>
+db.find_url { |url|
+  http.get(url) { |response|
+    email.send(response) {
+      puts 'email sent'
+    }
+  }
+}
+        </code></pre>
+        </section>
+      </div>
+
+      <div class="slide">
+        <h1>EM::Synchrony ?</h1>
+        <section>
+        <div class="small">
+        <pre><code>
+EventMachine.run {
+  page = EventMachine::HttpRequest.new('http://google.com/').get
+  page.errback { p "Google is down! terminate?" }
+  page.callback {
+    about = EventMachine::HttpRequest.new('http://google.com/search?q=eventmachine').get
+    about.callback { # callback nesting, ad infinitum }
+    about.errback  { # error-handling code }
+  }
+}
+        </code></pre>
+        ... + Fibers (on MRI 1.9.x) becomes ...
+        <pre><code>
+EventMachine.synchrony do
+  page = EventMachine::HttpRequest.new("http://www.google.com").get
+  about = EventMachine::HttpRequest.new('http://google.com/search?q=eventmachine').get
+  EventMachine.stop
+end
+        </code></pre>
+        </div>
+        </section>
+      </div>
+
+      <div class="slide">
+        <h1>Goliath</h1>
+        <section>
+        <ul>
+          <li>Mix EventMachine and EM::Synchrony</li>
+          <li>Let PostRank iterates on this ...</li>
+        </ul>
+        <div class="small">
+        <pre><code>
+require 'goliath'
+
+class Hello < Goliath::API
+  # default to JSON output, allow Yaml as secondary
+  use Goliath::Rack::Render, ['json', 'yaml']
+
+  def response(env)
+    [200, {}, "Hello World"]
+  end
+end
+
+# > ruby hello.rb -sv
+# > [97570:INFO] 2011-02-15 00:33:51 :: Starting server on 0.0.0.0:9000 in development mode. Watch out for stones.
+        </code></pre>
+        </div>
+        </section>
+      </div>
+
+      <div class="slide">
+        <h1>Goliath</h1>
+        <section>
+        <ul class="bullet">
+          <li>App server</li>
+          <li>Fully-asynchronous</li>
+          <li>Streaming support</li>
+          <li>Middleware support</li>
+          <li>Simple configuration</li>
+          <li>High performance: around 3000 req/s</li>
+          <li>Readable and maitainable code</li>
+        </ul>
+        </section>
+      </div>
+
+      <div class="slide">
+        <h1>Bonus</h1>
+        <section>
+        <ul class="bullet">
+          <li>Middlewares</li>
+          <li>Async Upload</li>
+          <li>Streaming API</li>
+          <li>Routing</li>
+          <li>Websockets</li>
+          <li>Integration testing</li>
+        </ul>
+        </section>
+      </div>
+
+      <div class="slide">
+        <h1>Use cases</h1>
+        <section>
+        <ul class="bullet">
+          <li>Interface with dbs</li>
+          <li>Proxying remote web-services</li>
+          <li>Streaming API</li>
+          <li>Websockets server</li>
+        </ul>
+        </section>
+      </div>
+      <div class="slide">
+        <h1>Demo time</h1>
+        <section>
+          Stream Twitter search over a websocket !
+        </section>
+      </div>
+
+    </div>
+    <div id="background"></div>
+    <div id="stage"> </div>
+    <script src="js/highlight/highlight.pack.js"></script>
+    <script src="js/slides.js"></script>
+    <script type="text/javascript">
+      hljs.initHighlightingOnLoad();
+    </script>
+  </body>
+</html>
+
