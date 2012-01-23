@@ -10,6 +10,7 @@
   <body>
     <div id="content" class="hidden">
       <div id="bg-black" class="background"></div>
+      <div id="bg-aoi" class="background"></div>
       <div id="bg-sumo" class="background"></div>
 
 
@@ -19,7 +20,7 @@
           F. Ros @ Riviera.rb
           </section>
      </div>
-      <div class="slide slide-in" data-backgroundid="bg-black">
+      <div class="slide slide-in" data-backgroundid="bg-aoi">
         <section class="hcenter">
           <div class="slide-in-left">
             <img id="me" src="images/fred2.png" alt="Frederick Ros">
@@ -32,6 +33,11 @@
             <p><img id="gplus" src="images/gplus.png"alt="google+"/><a href="https://plus.google.com/112360515366365281857">+Frederick Ros</a></p>
           </div>
         </section>
+      </div>
+
+      <div class="slide centercontents">
+        <h1>Traditional web servers</h1>
+        <img alt="IO jam" src="images/io.jpg"/>
       </div>
 
       <div class="slide vcenter">
@@ -47,10 +53,6 @@
         </section>
       </div>
 
-      <div class="slide centercontents">
-        <h1>Traditional web servers</h1>
-        <img alt="IO jam" src="images/io.jpg"/>
-      </div>
       <div class="slide">
         <h1>Enters the Reactor</h1>
         <section>
@@ -69,11 +71,7 @@ end
       <div class="slide vcenter centertext">
         <h1>... and EventMachine</h1>
         <section>
-          <div class="center">
-            <p>Reactor pattern (i.e. event driven)</p>
-            <p>+</p>
-            <p>Asynchronous code </p>
-          </div>
+        <img id="async2" src="images/async2.png" alt="Reactor + Async = Event Machine">
         </section>
       </div>
       <div class="slide">
@@ -91,12 +89,32 @@ db.find_url { |url|
         </code></pre>
         </section>
       </div>
+      <div class="slide">
+        <h1>Ruby's Fibers</h1>
+        <section>
+          <ul>
+            <li>Available on MIR 1.9.x</li>
+            <li> ~ Continuations </li>
+            <li> Light-weigth concurrency: cheaper, easier than threads</li>
+          </ul>
+          <pre><code>
+fiber = Fiber.new do
+  Fiber.yield 1
+  2
+end
+
+puts fiber.resume # => 1
+puts fiber.resume # => 2
+puts fiber.resume # => FiberError: dead fiber called
+          </code></pre>
+        </section>
+      </div>
 
       <div class="slide">
-        <h1>EM::Synchrony ?</h1>
+        <h1>EventMachine + Fibers ➪ EM::Synchrony</h1>
         <section>
-        <div class="small">
-        <pre><code>
+        <div>
+        <pre class="small"><code>
 EventMachine.run {
   page = EventMachine::HttpRequest.new('http://google.com/').get
   page.errback { p "Google is down! terminate?" }
@@ -107,8 +125,8 @@ EventMachine.run {
   }
 }
         </code></pre>
-        ... + Fibers (on MRI 1.9.x) becomes ...
-        <pre><code>
+        <div style="text-align:center;">▼</div>
+        <pre class="small"><code>
 EventMachine.synchrony do
   page = EventMachine::HttpRequest.new("http://www.google.com").get
   about = EventMachine::HttpRequest.new('http://google.com/search?q=eventmachine').get

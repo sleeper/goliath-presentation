@@ -11,9 +11,11 @@ a:link,a:visited,a:hover{text-decoration:none;}
 .center{margin:auto 0;}
 .small{font-size:60%;}
 #test{display:-webkit-box;-webkit-box-orient:horizontal;}
-ul.bullet{list-style:none;padding:0;margin:0;}
+ul.bullet{list-style:none;padding:0;margin:0;font-size:120%;}
 ul.bullet li{padding-left:1em;text-indent:-0.7em;}
 ul.bullet li:before{content:"➪ ";}
 #bg-sumo{-webkit-background-size:contain;-moz-background-size:contain;-o-background-size:contain;background-size:contain;background:url('../images/artwild1x.jpg') bottom no-repeat,#ffffff;}
 #bg-black{background:#000;}
+#bg-aoi{background:#69D2E7;}
 .title h1{color:#A7DBD8;}
+#async2{width:500px;height:auto;}

@@ -16,7 +16,7 @@ body{font:30px Arial;background:#000;overflow:hidden;-webkit-perspective:1000px;
 .centertext{text-align:center;}
 header{font:40px 'Cabin',Arial;color:#0054AB;text-shadow:white 0px 2px 0px,rgba(0, 0, 0, 0.2) 0 2px 5px;}
 section{font:30px 'Lato','Ubuntu',Arial;font-weight:normal;color:#3f3f3f;text-shadow:white 0px 1px 0px,rgba(0, 0, 0, 0.2) 0 2px 5px;}
-h1,h2{font-size:150%;font-family:'Yanone Kaffeesatz';margin-top:0;}
+h1,h2{font-family:'Yanone Kaffeesatz';margin-top:0;}
 .title h1{font-size:500%;text-shadow:black 0 2px 5px;text-align:center;}
 .title .author{font-family:'Ubuntu';text-align:right;margin-top:5em;font-style:italic;}
 .highlight{display:inline-block;padding:3px 5px;border-radius:5px;color:#fff;background:#f38630;-webkit-text-shadow:0 1px 4px #000000;-moz-text-shadow:0 1px 4px #000000;-o-text-shadow:0 1px 4px #000000;text-shadow:0 1px 4px #000000;}
