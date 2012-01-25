@@ -1,10 +1,13 @@
 #!/usr/bin/env ruby
+# encoding: UTF-8
 
 require "bundler/setup"
 require 'goliath'
 require 'goliath/websocket'
 require 'em-http-request'
 require 'json'
+
+Encoding.default_internal = "UTF-8"
 
 # Twitter search:
 #  curl -d 'track=freemobile' https://stream.twitter.com/1/statuses/filter.json -uUSER:PWD
@@ -17,7 +20,7 @@ class WebSocketEndPoint < Goliath::WebSocket
   def on_open(env)
     # Join the channel
     env[:tbuffer] = ""
-    env[:subscription] = env.channel.subscribe {|m| env.stream_send(m) }
+    env[:subscription] = env.channel.subscribe {|m| env.stream_send(m.force_encoding("BINARY")) }
     puts "FRED: Connection to ws"
   end
 
@@ -37,7 +40,6 @@ class WebSocketEndPoint < Goliath::WebSocket
         while line = env[:tbuffer].slice!(/.+\r?\n/)
           if line.length > 5
             record = JSON.parse(line)
-
             env.channel << {:name => record['user']['screen_name'], :tweet => record['text'], :search => term }.to_json
           end
         end
@@ -61,6 +63,9 @@ class SiteIndex < Goliath::API
     ]
   end
 end
+
+puts "FRED: Default encoding: " + "foo".encoding.to_s
+
 
 class TwitSock < Goliath::API
   use Rack::Static, :urls => ['/scripts','/images','/css'], :root => Goliath::Application.app_path("static")
