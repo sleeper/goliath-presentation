@@ -21,7 +21,6 @@ class WebSocketEndPoint < Goliath::WebSocket
     # Join the channel
     env[:tbuffer] = ""
     env[:subscription] = env.channel.subscribe {|m| env.stream_send(m.force_encoding("BINARY")) }
-    puts "FRED: Connection to ws"
   end
 
   def on_message(env, msg)
@@ -35,7 +34,7 @@ class WebSocketEndPoint < Goliath::WebSocket
       http = EventMachine::HttpRequest.new(FIREHOSE).post(req)
 
       http.errback { puts 'Uh oh' }
-      http.stream do |chunk| 
+      http.stream do |chunk|
         env[:tbuffer] += chunk
         while line = env[:tbuffer].slice!(/.+\r?\n/)
           if line.length > 5
@@ -63,9 +62,6 @@ class SiteIndex < Goliath::API
     ]
   end
 end
-
-puts "FRED: Default encoding: " + "foo".encoding.to_s
-
 
 class TwitSock < Goliath::API
   use Rack::Static, :urls => ['/scripts','/images','/css'], :root => Goliath::Application.app_path("static")

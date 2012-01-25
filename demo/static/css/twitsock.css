@@ -1,5 +1,19 @@
 @font-face { font-family: 'Terminal Dosis'; src: url('TerminalDosis-SemiBold.ttf'); }
 
+@-webkit-keyframes roll {
+  from { -webkit-transform: rotate(0deg) }
+  to   { -webkit-transform: rotate(360deg) }
+}
+
+.roll {
+  -moz-animation-name: roll;
+  -moz-animation-duration: 4s;
+  -moz-animation-iteration-count: 1;
+  -webkit-animation-name: roll;
+  -webkit-animation-duration: 4s;
+  -webkit-animation-iteration-count: 1;
+}
+
 body, html {
   margin: 0;
   padding: 0;

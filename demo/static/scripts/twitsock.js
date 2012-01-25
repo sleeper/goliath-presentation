@@ -14,8 +14,12 @@ $(document).ready(function() {
     var record = $.parseJSON(evt.data);
     var user = record.name;
     var rx = regexs[record.search];
-    var msg = record.tweet.replace( rx, "<span class='highlight'>$1</span>");
+    var txt = record.tweet;
+    var msg = txt.replace( rx, "<span class='highlight'>$1</span>");
     $('#tweets').prepend(generate_string(user, msg));
+    if ( txt =~ /ruby/ ) {
+      $('body').addClass('roll');
+    }
   }
 
   $('#go').click(function() {
