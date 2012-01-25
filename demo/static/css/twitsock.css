@@ -1,0 +1,28 @@
+body, html {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+body {
+  font-family: 'Terminal Dosis', sans-serif;
+}
+
+h1 { color: red; }
+
+.tweet {
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+}
+
+.tweet .author {
+  width: 150px;
+}
+
+.tweet .msg {
+  -webkit-box-flex: 10;
+}
+
+.highlight {
+    background: yellow;
+}
