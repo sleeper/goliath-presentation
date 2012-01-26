@@ -7,16 +7,12 @@ require 'goliath/websocket'
 require 'em-http-request'
 require 'json'
 
-Encoding.default_internal = "UTF-8"
-
-# Twitter search:
-#  curl -d 'track=freemobile' https://stream.twitter.com/1/statuses/filter.json -uUSER:PWD
-#
 FIREHOSE = "https://stream.twitter.com/1/statuses/filter.json"
-USER = "GoliathDemo"
-PASS = "g0l14thd3m0"
+USER = ""
+PASS = ""
 
 class WebSocketEndPoint < Goliath::WebSocket
+
   def on_open(env)
     # Join the channel
     env[:tbuffer] = ""
@@ -55,16 +51,23 @@ end
 
 class SiteIndex < Goliath::API
   def response(env)
+    path = "static/"
+    path += case env[Goliath::Request::REQUEST_PATH]
+              when '/' then "index.html"
+              when '/search' then "search.html"
+            end
     [
       200,
       {"Content-Type"=>"text/html"},
-      File.open(Goliath::Application.app_path("static/index.html"),File::RDONLY)
+      File.open(Goliath::Application.app_path(path),File::RDONLY)
     ]
   end
 end
 
 class TwitSock < Goliath::API
   use Rack::Static, :urls => ['/scripts','/images','/css'], :root => Goliath::Application.app_path("static")
+
+  get "/search", SiteIndex
 
   get "/", SiteIndex
 

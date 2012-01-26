@@ -10,14 +10,21 @@ $(document).ready(function() {
       '</div>';
   }
 
+  var get_regexp = function(search_term) {
+    if (!regexs[search_term]) {
+      regexs[search_term] = new RegExp("(" + search_term + ")", "gi");
+    }
+
+    return regexs[search_term];
+  }
+
   var append_message = function(evt) {
     var record = $.parseJSON(evt.data);
     var user = record.name;
-    var rx = regexs[record.search];
     var txt = record.tweet;
-    var msg = txt.replace( rx, "<span class='highlight'>$1</span>");
+    var msg = txt.replace( get_regexp(record.search), "<span class='highlight'>$1</span>");
     $('#tweets').prepend(generate_string(user, msg));
-    if ( txt =~ /ruby/ ) {
+    if ( txt.match(/ruby/) ) {
       $('body').addClass('roll');
     }
   }
@@ -25,7 +32,6 @@ $(document).ready(function() {
   $('#go').click(function() {
     var search_term = $('#search').val();
     console.log("About to launch search on " + search_term);
-    regexs[search_term] = new RegExp("(" + search_term + ")", "gi");
 
     ws.send( 'search ' + search_term);
   });
